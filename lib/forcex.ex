@@ -36,7 +36,7 @@ defmodule Forcex do
   end
 
   def json_request(method, url, body, headers, options) do
-    raw_request(method, url, JSX.encode!(body), headers, options)
+    raw_request(method, url, format_body(body), headers, options)
   end
 
   def raw_request(method, url, body, headers, options) do
@@ -119,4 +119,7 @@ defmodule Forcex do
   defp authorization_header(%{access_token: token, token_type: type}) do
     [{"Authorization", type <> " " <> token}]
   end
+
+  defp format_body(""), do: ""
+  defp format_body(body), do: JSX.encode!(body)
 end
